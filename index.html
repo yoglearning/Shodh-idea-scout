@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shodh - Challenge Engine</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="blob blob1"></div>
+    <div class="blob blob2"></div>
+    <div class="blob blob3"></div>
+
+    <div class="container">
+        <div class="header">
+            <h1>SHODH</h1>
+            <div class="tabs">
+                <button class="tab-button active" onclick="switchTab('discover')">Discover</button>
+                <button class="tab-button" onclick="switchTab('accepted')">Accepted <span id="acceptedBadge"
+                        class="badge">0</span></button>
+            </div>
+        </div>
+
+        <div id="discoverTab" class="tab-content active">
+            <form id="challengeForm" onsubmit="event.preventDefault(); addCustomSubreddit();" class="controls"
+                style="margin-bottom: 25px; display: flex; flex-direction: column; gap: 12px; background: var(--bg-card); padding: 15px 20px; border-radius: 12px; border: 1px solid var(--border-light); box-shadow: var(--shadow-soft); max-width: 700px; width: 100%; box-sizing: border-box;">
+                <div style="display: flex; gap: 15px; justify-content: center; align-items: center; flex-wrap: wrap;">
+                    <label for="timePeriod"
+                        style="font-weight: 500; font-size: 0.95rem; color: var(--text-muted);">Reddit Source:</label>
+                    <select id="timePeriod" class="status-select" onchange="refreshRedditChallenges()">
+                        <option value="hot">Hot (Newest)</option>
+                        <option value="day">Top (Today)</option>
+                        <option value="week">Top (This Week)</option>
+                        <option value="month">Top (This Month)</option>
+                        <option value="year">Top (This Year)</option>
+                        <option value="all">Top (All Time)</option>
+                    </select>
+                    <button type="button" class="tab-button" onclick="refreshRedditChallenges()"
+                        style="padding: 6px 14px; border: 1px solid var(--border-light); background: var(--bg-glass); box-shadow: none;">Fetch
+                        New</button>
+                </div>
+                <div style="width: 100%;">
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; min-height: 28px;"
+                        id="subredditsContainer"></div>
+                    <input type="text" id="customSubs" class="custom-input"
+                        placeholder="Type subreddit name and press Enter to add...">
+                </div>
+            </form>
+
+            <div class="card" id="challengeCard">
+                <h2 id="challengeText">Loading challenge...</h2>
+
+                <details class="challenge-details">
+                    <summary class="details-summary">View Details</summary>
+                    <div class="why-container">
+                        <span class="why-label">The Why</span>
+                        <div class="why" id="whyText">...</div>
+                    </div>
+                    <div class="meta-info">
+                        <div class="meta-item">
+                            <span class="meta-label">Subreddit:</span>
+                            <span class="meta-value" id="subredditText">...</span>
+                        </div>
+                        <div class="meta-item" id="engagementContainer" style="display: none;">
+                            <span class="meta-label">Engagement:</span>
+                            <span class="meta-value" id="engagementText">...</span>
+                        </div>
+                        <div class="meta-item" id="dateContainer" style="display: none;">
+                            <span class="meta-label">Published:</span>
+                            <span class="meta-value" id="dateText">...</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Link:</span>
+                            <a href="#" id="postLink" target="_blank" class="meta-link">View Post</a>
+                        </div>
+                    </div>
+                </details>
+
+                <div class="actions">
+                    <button type="button" class="no" onclick="rejectChallenge()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                        SKIP
+                    </button>
+                    <button type="button" class="yes" onclick="acceptChallenge()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        ACCEPT
+                    </button>
+                </div>
+            </div>
+
+            <div class="stats">
+                <div class="stat-badge">Seen: <span class="stat-value" id="seenCount">0</span></div>
+            </div>
+        </div>
+
+        <div id="acceptedTab" class="tab-content">
+            <div class="dashboard-container" id="dashboardContainer">
+                <!-- Accordions injected here by JS -->
+            </div>
+        </div>
+    </div>
+
+    <script src="challenges.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
