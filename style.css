@@ -42,35 +42,6 @@
             animation: move 12s infinite alternate;
         }
 
-        .blob1 {
-            width: 500px;
-            height: 500px;
-            background: rgba(131, 58, 180, 0.8);
-            top: -100px;
-            left: -100px;
-        }
-
-        .blob2 {
-            width: 450px;
-            height: 450px;
-            background: rgba(253, 29, 29, 0.6);
-            bottom: -50px;
-            right: -50px;
-            animation-duration: 15s;
-            animation-delay: 2s;
-        }
-
-        .blob3 {
-            width: 400px;
-            height: 400px;
-            background: rgba(252, 176, 69, 0.6);
-            top: 40%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            animation-duration: 18s;
-            animation-delay: 1s;
-        }
-
         @keyframes move {
             from {
                 transform: translate(0, 0) scale(1);
