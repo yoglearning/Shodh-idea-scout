@@ -23,6 +23,12 @@
                         class="badge">0</span></button>
             </div>
         </div>
+            <p
+                style="max-width: 700px; margin: 0 auto 16px; color: var(--text-muted); font-size: 0.95rem; line-height: 1.5;">
+                Add a subreddit or subreddits you care about, and enter. Explore the filter options and click Fetch New to load fresh challenges. Use
+                Skip to move past ideas and Accept to save the best ones. Open the Accepted tab anytime to review and
+                organize your saved opportunities.
+            </p>
 
         <div id="discoverTab" class="tab-content active">
             <form id="challengeForm" onsubmit="event.preventDefault(); addCustomSubreddit();" class="controls"
@@ -49,7 +55,6 @@
                         placeholder="Type subreddit name and press Enter to add...">
                 </div>
             </form>
-
             <div class="card" id="challengeCard">
                 <h2 id="challengeText">Loading challenge...</h2>
 
