@@ -1,6 +1,7 @@
-# Shodh - Challenge Engine
+# **[Shodh - Challenge Engine](https://yoglearning.github.io/Shodh-idea-scout/)**
 
-Shodh is a powerful idea-generation and validation tool that helps you discover real problems, friction points, and recurring complaints directly from Reddit. By analyzing discussions across specific communities, Shodh distills heavy text into actionable product challenges and startup ideas.
+
+Shodh is a reddit-based powerful idea-generation and validation tool that helps you discover real problems, friction points, and recurring complaints directly from Reddit. By analyzing discussions across specific communities, Shodh distills heavy text into actionable product challenges and startup ideas.
 
 ## Features
 
