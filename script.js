@@ -202,7 +202,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     redditPath += `${redditPath.includes('?') ? '&' : '?'}cb=${Date.now()}`;
 
                     // Use a CORS proxy since Reddit's API blocks direct browser requests
-                    const url = `https://corsproxy.io/?url=https://www.reddit.com/${redditPath}`;
+                    const url = `https://thingproxy.freeboard.io/fetch/https://www.reddit.com/${redditPath}`;
 
                     let response = await fetch(url);
 
@@ -234,7 +234,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     // Fallback to hot if top returns nothing for the period
                     if (period !== "hot" && (!data || !data.data || !data.data.children || data.data.children.length === 0)) {
                         const fallbackPath = `r/${randomSubreddit}/hot.json?limit=25&cb=${Date.now()}`;
-                        const fallbackUrl = `https://corsproxy.io/?url=https://www.reddit.com/${fallbackPath}`;
+                        const fallbackUrl = `https://thingproxy.freeboard.io/fetch/https://www.reddit.com/${fallbackPath}`;
                         response = await fetch(fallbackUrl);
                         if (!response.ok) continue;
                         data = await response.json();
