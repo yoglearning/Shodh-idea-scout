@@ -546,6 +546,67 @@
             opacity: 0.6;
         }
 
+        .proxy-settings {
+            max-width: 700px;
+            margin: 0 auto 25px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            padding: 16px 20px;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .proxy-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .proxy-title {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .proxy-status {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .proxy-status.active {
+            color: var(--primary);
+        }
+
+        .proxy-copy {
+            margin: 4px 0 12px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .proxy-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .proxy-row .custom-input {
+            flex: 1;
+        }
+
+        .link-button {
+            border: none;
+            background: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            text-decoration: underline;
+            font-size: 0.9rem;
+            padding: 0 8px;
+        }
+
+        .link-button:hover {
+            color: var(--primary);
+        }
+
         .sub-chip {
             background: rgba(19, 155, 70, 0.15);
             border: 1px solid var(--primary);

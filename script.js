@@ -6,6 +6,67 @@ let skippedChallenges = JSON.parse(localStorage.getItem("skippedChallenges")) ||
 let userSubreddits = JSON.parse(localStorage.getItem("userSubreddits")) || [];
 let seenCount = parseInt(localStorage.getItem("seenCount")) || 0;
 
+const PROXY_STORAGE_KEY = "shodhProxyUrl";
+const DEPLOYED_PROXY_BASE = "https://your-deployed-shodh-proxy.vercel.app/api/reddit";
+const FALLBACK_PROXY_PREFIX = "https://thingproxy.freeboard.io/fetch/";
+
+function getSavedProxyBase() {
+    const saved = (localStorage.getItem(PROXY_STORAGE_KEY) || "").trim();
+    if (saved) return saved.replace(/\/$/, "");
+    if (DEPLOYED_PROXY_BASE && !DEPLOYED_PROXY_BASE.includes("your-deployed-shodh-proxy")) {
+        return DEPLOYED_PROXY_BASE.replace(/\/$/, "");
+    }
+    return "";
+}
+
+function buildProxyUrl(redditPath) {
+    const redditUrl = `https://www.reddit.com/${redditPath}`;
+    const base = getSavedProxyBase();
+    if (base) {
+        const joinChar = base.includes("?") ? "&" : "?";
+        return `${base}${joinChar}url=${encodeURIComponent(redditUrl)}`;
+    }
+    return `${FALLBACK_PROXY_PREFIX}${redditUrl}`;
+}
+
+function updateProxyStatusUI() {
+    const statusElem = document.getElementById("proxyStatus");
+    if (!statusElem) return;
+    const saved = (localStorage.getItem(PROXY_STORAGE_KEY) || "").trim();
+    if (saved) {
+        statusElem.innerText = "Using custom proxy";
+        statusElem.className = "proxy-status active";
+    } else if (DEPLOYED_PROXY_BASE && !DEPLOYED_PROXY_BASE.includes("your-deployed-shodh-proxy")) {
+        statusElem.innerText = "Using project proxy";
+        statusElem.className = "proxy-status active";
+    } else {
+        statusElem.innerText = "Using shared fallback";
+        statusElem.className = "proxy-status";
+    }
+}
+
+window.saveProxyUrl = function () {
+    const input = document.getElementById("proxyUrlInput");
+    if (!input) return;
+    const value = input.value.trim();
+    if (value) {
+        localStorage.setItem(PROXY_STORAGE_KEY, value);
+    } else {
+        localStorage.removeItem(PROXY_STORAGE_KEY);
+    }
+    updateProxyStatusUI();
+    refreshRedditChallenges();
+};
+
+window.resetProxyUrl = function () {
+    const input = document.getElementById("proxyUrlInput");
+    if (!input) return;
+    input.value = "";
+    localStorage.removeItem(PROXY_STORAGE_KEY);
+    updateProxyStatusUI();
+    refreshRedditChallenges();
+};
+
 // Generate a unique ID for each accepted challenge
 function generateId() {
     return Date.now().toString(36) + Math.random().toString(36).substr(2);
@@ -166,6 +227,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Initialize initial render once available
     renderSubreddits();
+    const proxyInput = document.getElementById("proxyUrlInput");
+    if (proxyInput) {
+        proxyInput.value = (localStorage.getItem(PROXY_STORAGE_KEY) || "").trim();
+        proxyInput.placeholder = "https://your-proxy.vercel.app/api/reddit";
+    }
+    updateProxyStatusUI();
 
     async function fetchRedditChallenges() {
         try {
@@ -201,8 +268,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                     // Append cache buster to prevent browser from returning stale 429s/403s
                     redditPath += `${redditPath.includes('?') ? '&' : '?'}cb=${Date.now()}`;
 
-                    // Use a CORS proxy since Reddit's API blocks direct browser requests
-                    const url = `https://thingproxy.freeboard.io/fetch/https://www.reddit.com/${redditPath}`;
+                    // Use a proxy endpoint to avoid Reddit's browser restrictions
+                    const url = buildProxyUrl(redditPath);
 
                     let response = await fetch(url);
 
@@ -234,7 +301,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     // Fallback to hot if top returns nothing for the period
                     if (period !== "hot" && (!data || !data.data || !data.data.children || data.data.children.length === 0)) {
                         const fallbackPath = `r/${randomSubreddit}/hot.json?limit=25&cb=${Date.now()}`;
-                        const fallbackUrl = `https://thingproxy.freeboard.io/fetch/https://www.reddit.com/${fallbackPath}`;
+                        const fallbackUrl = buildProxyUrl(fallbackPath);
                         response = await fetch(fallbackUrl);
                         if (!response.ok) continue;
                         data = await response.json();

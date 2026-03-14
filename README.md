@@ -10,6 +10,7 @@ Shodh is a reddit-based powerful idea-generation and validation tool that helps 
 - **Dynamic Fallbacks:** Intelligently falls back to top topics if specific friction keywords aren't found, ensuring you always get actionable data.
 - **Time-period Filtering:** Filter discussions by Hot, Today, This Week, This Month, This Year, or All Time.
 - **Smart Proxying:** Uses a secure CORS proxy to fetch Reddit data reliably without being blocked by browser policies.
+- **Bring-Your-Own Proxy:** Drop in your own proxy URL for maximum reliability, or deploy the included Vercel serverless proxy.
 - **Persistent Storage:** Saves your accepted challenges, ideas, and custom subreddit lists locally in your browser.
 - **Beautiful Glassmorphism UI:** A modern, distraction-free interface built with vanilla HTML, CSS, and JS.
 
@@ -20,6 +21,17 @@ Since Shodh is a purely client-side web application, you don't need any complex 
 1. Clone or download this repository.
 2. Open `index.html` directly in any modern web browser.
 3. Start exploring subreddits!
+
+### Deploy Your Own Reddit Proxy (Recommended)
+
+Public proxies eventually get rate limited. Ship your own with the included `proxy/` package:
+
+1. `cd proxy`
+2. `npm install`
+3. Set an environment variable `REDDIT_USER_AGENT` with your Reddit app identifier (e.g. `MyScout/1.0 by u/username`).
+4. Deploy to Vercel: `vercel --prod` (or `vercel dev` locally). The function lives at `/api/reddit`.
+5. Copy the deployed URL (e.g. `https://shodh-proxy.vercel.app/api/reddit`).
+6. In the Shodh UI, paste it into **Proxy Endpoint** under the controls and hit **Save**. The app will fall back to a shared proxy if no custom URL is provided.
 
 ## How It Works
 

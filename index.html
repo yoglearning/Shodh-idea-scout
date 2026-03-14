@@ -26,6 +26,20 @@
                 Skip to move past ideas and Accept to save the best ones. Open the Accepted tab anytime to review and
                 organize your saved opportunities.
             </p>
+            <div class="proxy-settings">
+                <div class="proxy-header">
+                    <span class="proxy-title">Proxy Endpoint</span>
+                    <span class="proxy-status" id="proxyStatus">Using shared fallback</span>
+                </div>
+                <p class="proxy-copy">Deploy the proxy (see README) and paste its base URL. Leave blank to use the shared fallback service.</p>
+                <div class="proxy-row">
+                    <input type="url" id="proxyUrlInput" class="custom-input"
+                        placeholder="https://your-proxy.vercel.app/api/reddit">
+                    <button type="button" class="tab-button" onclick="saveProxyUrl()"
+                        style="flex: 0 0 auto;">Save</button>
+                    <button type="button" class="link-button" onclick="resetProxyUrl()">Reset</button>
+                </div>
+            </div>
 
         <div id="discoverTab" class="tab-content active">
             <form id="challengeForm" onsubmit="event.preventDefault(); addCustomSubreddit();" class="controls"
